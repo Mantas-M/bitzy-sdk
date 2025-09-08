@@ -15,11 +15,11 @@ A comprehensive SDK for fetching swap routes and executing swaps on Bitzy's dece
 ### **Installation**
 
 ```bash
-npm install @bitzy/swap-sdk
+npm install @bitzy-app/bitzy-sdk
 # or
-yarn add @bitzy/swap-sdk
+yarn add @bitzy-app/bitzy-sdk
 # or
-pnpm add @bitzy/swap-sdk
+pnpm add @bitzy-app/bitzy-sdk
 ```
 
 ## **1. Using Functions**
@@ -27,7 +27,7 @@ pnpm add @bitzy/swap-sdk
 ### **1.1 `fetchSwapRoute()` - Main Route Finding Function**
 
 ```typescript
-import { fetchSwapRoute } from '@bitzy/swap-sdk';
+import { fetchSwapRoute } from '@bitzy-app/bitzy-sdk';
 
 // Basic usage with defaults
 const result = await fetchSwapRoute({
@@ -57,7 +57,7 @@ console.log('Distributions:', result.distributions);
 ### **1.2 `fetchBatchSwapRoutes()` - Multiple Routes at Once**
 
 ```typescript
-import { fetchBatchSwapRoutes } from '@bitzy/swap-sdk';
+import { fetchBatchSwapRoutes } from '@bitzy-app/bitzy-sdk';
 
 // Fetch multiple routes simultaneously
 const results = await fetchBatchSwapRoutes([
@@ -94,7 +94,7 @@ results.forEach((result, index) => {
 ### **1.3 `getSwapQuote()` - Simple Price Quote**
 
 ```typescript
-import { getSwapQuote } from '@bitzy/swap-sdk';
+import { getSwapQuote } from '@bitzy-app/bitzy-sdk';
 
 // Get a simple quote without full routing details
 const quote = await getSwapQuote(
@@ -112,7 +112,7 @@ console.log('Route count:', quote.routes);
 ### **1.4 `fetchSwapRouteSimple()` - Minimal Configuration**
 
 ```typescript
-import { fetchSwapRouteSimple } from '@bitzy/swap-sdk';
+import { fetchSwapRouteSimple } from '@bitzy-app/bitzy-sdk';
 
 // Simplified function with minimal parameters
 const result = await fetchSwapRouteSimple(
@@ -131,7 +131,7 @@ console.log('Best route:', result.routes[0]);
 ### **2.1 `useSwapV3Routes()` - Main React Hook**
 
 ```tsx
-import { useSwapV3Routes } from '@bitzy/swap-sdk';
+import { useSwapV3Routes } from '@bitzy-app/bitzy-sdk';
 
 function SwapComponent() {
   const [srcToken, setSrcToken] = useState(btcToken);
@@ -221,7 +221,7 @@ Here are generic examples showing how to execute swaps using direct contract cal
 #### **Example 1: Using Viem with BitzyAggregator Contract**
 
 ```tsx
-import { useSwapV3Routes } from '@bitzy/swap-sdk';
+import { useSwapV3Routes } from '@bitzy-app/bitzy-sdk';
 import { useWriteContract, useAccount } from 'wagmi';
 import { parseUnits, formatUnits } from 'viem';
 
@@ -401,7 +401,7 @@ function SwapComponent() {
 #### **Example 2: Using Ethers.js**
 
 ```typescript
-import { useSwapV3Routes } from '@bitzy/swap-sdk';
+import { useSwapV3Routes } from '@bitzy-app/bitzy-sdk';
 import { ethers } from 'ethers';
 
 function SwapWithEthers() {
@@ -484,7 +484,7 @@ function SwapWithEthers() {
 #### **Example 3: Using Web3.js**
 
 ```typescript
-import { useSwapV3Routes } from '@bitzy/swap-sdk';
+import { useSwapV3Routes } from '@bitzy-app/bitzy-sdk';
 import Web3 from 'web3';
 
 function SwapWithWeb3() {
@@ -776,7 +776,7 @@ interface Token {
 ### **Backend Usage (Node.js)**
 
 ```typescript
-import { fetchSwapRoute, fetchBatchSwapRoutes } from '@bitzy/swap-sdk';
+import { fetchSwapRoute, fetchBatchSwapRoutes } from '@bitzy-app/bitzy-sdk';
 
 // Express.js endpoint
 app.post('/api/swap/routes', async (req, res) => {
@@ -822,7 +822,7 @@ import {
   getPartCountWithFallback,
   clearMinimumAmountsCache,
   APIClient
-} from '@bitzy/swap-sdk';
+} from '@bitzy-app/bitzy-sdk';
 
 // Check if token is high-value (requires chainId)
 const isHighValue = isHighValueToken(token, 3637);

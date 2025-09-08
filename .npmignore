@@ -1,7 +1,5 @@
 # Source files
 src/
-examples/
-docs/
 
 # Development files
 *.test.ts
