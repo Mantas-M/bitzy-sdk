@@ -1,3 +1,12 @@
+## [0.0.5](https://github.com/bitzy-app/bitzy-sdk/compare/v0.0.4...v0.0.5) (2025-09-08)
+
+
+### Features
+
+* bundle all dependencies for zero conflicts ([1d45278](https://github.com/bitzy-app/bitzy-sdk/commit/1d452785f61c071cc0779e88aa61e0e7de4d73d4))
+
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
