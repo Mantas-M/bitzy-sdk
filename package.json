@@ -1,6 +1,6 @@
 {
   "name": "@bitzy/swap-sdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Bitzy Swap V3 Routes SDK for frontend and backend applications",
   "type": "module",
   "main": "dist/index.js",
