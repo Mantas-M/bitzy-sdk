@@ -1,14 +1,23 @@
-# Bitzy Swap V3 - Common Function & Hot Hook
+# Bitzy Aggregator SDK - Multi-DEX Route Aggregation
 
-A comprehensive SDK for fetching swap routes and executing swaps on Bitzy's decentralized exchange. Provides both **common functions** for any environment and **React hooks** for frontend applications.
+A comprehensive SDK for aggregating swap routes across multiple decentralized exchanges and executing optimal swaps. Provides both **common functions** for any environment and **React hooks** for frontend applications with intelligent route aggregation.
 
 ## **What This Package Provides**
 
+- **Multi-DEX Aggregation** - Automatically finds the best routes across multiple decentralized exchanges
 - **Common Functions** - Work in Node.js, browser, or any JavaScript environment
 - **React Hooks** - Hot reloading with automatic updates and error handling
 - **TypeScript Support** - Full type safety throughout
-- **Intelligent Routing** - Automatic optimization based on token characteristics
+- **Intelligent Route Optimization** - Automatic aggregation based on token characteristics and liquidity
 - **Multiple Networks** - Support for Botanix Mainnet and Testnet
+- **Split Routing** - Distributes large swaps across multiple routes for optimal execution
+
+## **Current Support Notice**
+
+**Currently supports Bitzy V2 and Bitzy V3 liquidity sources only.**
+
+This aggregator SDK begins with Bitzy's own DEX implementations. **Integration with additional external DEXs is planned for very soon.**
+
 
 ## **Quick Start**
 
@@ -24,7 +33,7 @@ pnpm add @bitzy-app/bitzy-sdk
 
 ## **1. Using Functions**
 
-### **1.1 `fetchSwapRoute()` - Main Route Finding Function**
+### **1.1 `fetchSwapRoute()` - Main Route Aggregation Function**
 
 ```typescript
 import { fetchSwapRoute } from '@bitzy-app/bitzy-sdk';
@@ -54,7 +63,7 @@ console.log('Amount out:', result.amountOutBN.toFixed());
 console.log('Distributions:', result.distributions);
 ```
 
-### **1.2 `fetchBatchSwapRoutes()` - Multiple Routes at Once**
+### **1.2 `fetchBatchSwapRoutes()` - Batch Route Aggregation**
 
 ```typescript
 import { fetchBatchSwapRoutes } from '@bitzy-app/bitzy-sdk';
@@ -91,7 +100,7 @@ results.forEach((result, index) => {
 });
 ```
 
-### **1.3 `getSwapQuote()` - Simple Price Quote**
+### **1.3 `getSwapQuote()` - Aggregated Price Quote**
 
 ```typescript
 import { getSwapQuote } from '@bitzy-app/bitzy-sdk';
@@ -109,7 +118,7 @@ console.log('Amount out:', quote.amountOut);
 console.log('Route count:', quote.routes);
 ```
 
-### **1.4 `fetchSwapRouteSimple()` - Minimal Configuration**
+### **1.4 `fetchSwapRouteSimple()` - Simple Aggregation**
 
 ```typescript
 import { fetchSwapRouteSimple } from '@bitzy-app/bitzy-sdk';
@@ -128,7 +137,7 @@ console.log('Best route:', result.routes[0]);
 
 ## **2. Using React Hooks**
 
-### **2.1 `useSwapV3Routes()` - Main React Hook**
+### **2.1 `useSwapV3Routes()` - Main Aggregation React Hook**
 
 ```tsx
 import { useSwapV3Routes } from '@bitzy-app/bitzy-sdk';
@@ -139,6 +148,7 @@ function SwapComponent() {
   const [amountIn, setAmountIn] = useState('1.0');
 
   // Basic usage with defaults
+  // Get aggregated routes using SDK
   const {
     routes,
     distributions,
@@ -154,7 +164,7 @@ function SwapComponent() {
     clearError
   } = useSwapV3Routes(srcToken, dstToken, amountIn, 3637);
 
-  // Advanced usage with custom configuration
+  // Advanced usage with custom aggregation configuration
   const swapConfig = {
     apiBaseUrl: 'https://api-public.bitzy.app',
     config: {
@@ -212,11 +222,11 @@ function SwapComponent() {
 
 ## **3. Prepare to Swap Using Response**
 
-Based on the main repository implementation, here's how to use the SDK response to prepare and execute swaps:
+Based on the main repository implementation, here's how to use the aggregator SDK response to prepare and execute optimized swaps:
 
-### **3.1 Complete Swap Implementation**
+### **3.1 Complete Aggregated Swap Implementation**
 
-Here are generic examples showing how to execute swaps using direct contract calls with the SDK response data:
+Here are generic examples showing how to execute aggregated swaps using direct contract calls with the SDK response data:
 
 #### **Example 1: Using Viem with BitzyAggregator Contract**
 
@@ -234,7 +244,7 @@ function SwapComponent() {
   const { address, publicClient } = useAccount();
   const { writeContract } = useWriteContract();
 
-  // Get swap routes using SDK
+  // Get aggregated routes using SDK
   const {
     routes,
     distributions,
@@ -263,7 +273,7 @@ function SwapComponent() {
     useOnlinePartCount: true,
   });
 
-  // Execute swap using direct contract call
+  // Execute aggregated swap using direct contract call
   const handleSwap = useCallback(async () => {
     if (!srcToken || !dstToken || !routes.length || !address) return;
 
@@ -311,7 +321,7 @@ function SwapComponent() {
       return;
     }
 
-    // Regular swap using splitTrade
+    // Regular aggregated swap using splitTrade
     const tradeRoutes = routes.map((route, i) => {
       const amountInPart = amountInParts[i];
       const amountOutMinPart = amountOutRoutes[i].times(1 - slippageBN);
@@ -408,7 +418,7 @@ function SwapWithEthers() {
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
 
-  // Get swap routes using SDK
+  // Get aggregated routes using SDK
   const {
     routes,
     distributions,
@@ -421,7 +431,7 @@ function SwapWithEthers() {
     fetchRoute
   } = useSwapV3Routes(srcToken, dstToken, amountIn, 3637);
 
-  // Execute swap using ethers.js
+  // Execute aggregated swap using ethers.js
   const executeSwap = async () => {
     if (!signer || !routes.length) return;
 
@@ -491,7 +501,7 @@ function SwapWithWeb3() {
   const [web3, setWeb3] = useState<Web3 | null>(null);
   const [account, setAccount] = useState<string | null>(null);
 
-  // Get swap routes using SDK
+  // Get aggregated routes using SDK
   const {
     routes,
     distributions,
@@ -503,7 +513,7 @@ function SwapWithWeb3() {
     fetchRoute
   } = useSwapV3Routes(srcToken, dstToken, amountIn, 3637);
 
-  // Execute swap using web3.js
+  // Execute aggregated swap using web3.js
   const executeSwap = async () => {
     if (!web3 || !account || !routes.length) return;
 
@@ -572,9 +582,9 @@ function SwapWithWeb3() {
 }
 ```
 
-### **3.2 Key Data from SDK Response**
+### **3.2 Key Data from Aggregator SDK Response**
 
-The SDK provides all the necessary data for swap execution:
+The aggregator SDK provides all the necessary data for optimized swap execution:
 
 ```typescript
 interface SwapResult {
@@ -586,16 +596,16 @@ interface SwapResult {
   isWrap?: "wrap" | "unwrap";   // Wrap/unwrap indicator
 }
 
-// Example usage in your swap function:
+// Example usage in your aggregated swap function:
 swap(
   srcToken,
   dstToken,
   amountIn,        // User input
   amountOut,       // Calculated from amountOutBN
-  routes,          // From SDK - route details
-  distributions,   // From SDK - how to split liquidity
-  amountOutRoutes, // From SDK - amounts per route
-  amountInParts,   // From SDK - input amounts per part
+  routes,          // From aggregator SDK - optimized route details
+  distributions,   // From aggregator SDK - how to split liquidity across DEXs
+  amountOutRoutes, // From aggregator SDK - amounts per route
+  amountInParts,   // From aggregator SDK - input amounts per part
   slippageNumber   // User setting
 );
 ```
@@ -609,7 +619,7 @@ NEXT_PUBLIC_BITZY_API_URL=https://api-public.bitzy.app
 ```
 
 ```typescript
-// The SDK will automatically use these environment variables
+// The aggregator SDK will automatically use these environment variables
 const result = useSwapV3Routes(srcToken, dstToken, amountIn, chainId);
 // Uses process.env.NEXT_PUBLIC_BITZY_API_KEY if available
 ```
@@ -620,20 +630,20 @@ const result = useSwapV3Routes(srcToken, dstToken, amountIn, chainId);
 
 The `useSwapV3Routes` hook is designed for **hot reloading** and **real-time updates**:
 
-- **Auto-updates** - Fetches fresh routes every 10 seconds
+- **Auto-updates** - Fetches fresh aggregated routes every 10 seconds
 - **Debounced** - Prevents excessive API calls
 - **Error handling** - Built-in error state and recovery
 - **Hot reload** - Automatically reinitializes when config changes
 - **📱 React Native ready** - Works in any React environment
 
-### **Intelligent Routing**
+### **Intelligent Route Aggregation**
 
-The SDK automatically optimizes swap execution based on token characteristics:
+The aggregator SDK automatically optimizes swap execution by aggregating routes across multiple DEXs based on token characteristics:
 
-- **High-value pairs** (BTC-USDC, ETH-USDT): Uses `partCount = 5` for optimal execution
-- **Mixed pairs** (BTC-MEME, ETH-SHIB): Uses `partCount = 1` for simplicity  
-- **Low-value pairs** (MEME-SHIB): Uses `partCount = 1` for simplicity
-- **Online mode**: Checks minimum amount thresholds from API to determine if multi-route is beneficial
+- **High-value pairs** (BTC-USDC, ETH-USDT): Uses `partCount = 5` for optimal multi-DEX aggregation
+- **Mixed pairs** (BTC-MEME, ETH-SHIB): Uses `partCount = 1` for simplified aggregation  
+- **Low-value pairs** (MEME-SHIB): Uses `partCount = 1` for simplified aggregation
+- **Online mode**: Checks minimum amount thresholds from API to determine if multi-route aggregation is beneficial
 
 ### **High-Value Tokens (Network-Specific)**
 
@@ -661,7 +671,7 @@ const highValueTokens = [
 ### **Functions**
 
 #### **`fetchSwapRoute(options, config?)`**
-Main function for fetching swap routes in any environment.
+Main function for aggregating swap routes across multiple DEXs in any environment.
 
 **Parameters:**
 - `options: SwapOptions` - Swap parameters
@@ -670,7 +680,7 @@ Main function for fetching swap routes in any environment.
 **Returns:** `Promise<SwapResult>`
 
 #### **`fetchBatchSwapRoutes(requests)`**
-Fetch multiple routes simultaneously.
+Aggregate multiple routes simultaneously across different token pairs.
 
 **Parameters:**
 - `requests: Array<{options: SwapOptions, config?: FetchSwapRouteConfig}>`
@@ -678,18 +688,19 @@ Fetch multiple routes simultaneously.
 **Returns:** `Promise<Array<{success: boolean, data?: SwapResult, error?: string}>>`
 
 #### **`getSwapQuote(srcToken, dstToken, amountIn, chainId, config?)`**
-Get a simple price quote without full routing details.
+Get an aggregated price quote without full routing details.
 
 **Returns:** `Promise<{amountOut: string, routes: number}>`
 
 #### **`fetchSwapRouteSimple(srcToken, dstToken, amountIn, chainId)`**
-Simplified function with minimal parameters.
+Simplified aggregation function with minimal parameters.
 
 **Returns:** `Promise<SwapResult>`
 
 ### **React Hooks**
 
 #### **`useSwapV3Routes(srcToken, dstToken, amountIn, chainId, config?)`**
+Aggregation React hook for real-time route optimization.
 
 **Parameters:**
 - `srcToken: Token | null` - Source token
@@ -725,7 +736,7 @@ interface SwapOptions {
   srcToken: Token;            // Source token
   dstToken: Token;            // Destination token
   chainId: number;            // Network chain ID
-  partCount?: number;         // Optional: Liquidity parts
+  partCount?: number;         // Optional: Aggregation parts
 }
 ```
 
@@ -734,7 +745,7 @@ interface SwapOptions {
 interface FetchSwapRouteConfig {
   apiBaseUrl?: string;         // Optional: API base URL (defaults to https://api-public.bitzy.app)
   networks?: Record<number, any>; // Optional: Custom network configs
-  defaultPartCount?: number;  // Optional: Default parts (defaults to 5)
+  defaultPartCount?: number;  // Optional: Default aggregation parts (defaults to 5)
   timeout?: number;           // Optional: Request timeout (defaults to 30000)
   headers?: Record<string, string>; // Optional: Custom HTTP headers (defaults to {})
   forcePartCount?: number;    // Optional: Force specific partCount, overriding intelligent calculation
@@ -797,7 +808,7 @@ app.post('/api/swap/routes', async (req, res) => {
   }
 });
 
-// Batch processing
+// Batch aggregation processing
 app.post('/api/swap/batch', async (req, res) => {
   const { swaps } = req.body;
   
@@ -866,7 +877,7 @@ The package includes default configurations for:
 
 ### **Default Values**
 
-When no config is provided, the SDK uses these sensible defaults:
+When no config is provided, the aggregator SDK uses these sensible defaults:
 
 - **API URL**: `https://api-public.bitzy.app` (from `DEFAULT_API_BASE_URL`)
 - **API Key**: From `NEXT_PUBLIC_BITZY_API_KEY` environment variable or fallback
@@ -914,11 +925,11 @@ src/
 
 ## **Why This Design?**
 
-- **Focused** - Just the essential swap functionality
-- **Hot Reload** - Perfect for React development
-- **Universal** - Common functions work everywhere
-- **Lightweight** - Minimal dependencies
-- **Type Safe** - Full TypeScript support
+- **Focused** - Just the essential aggregation functionality
+- **Hot Reload** - Perfect for React development with real-time aggregation
+- **Universal** - Common functions work everywhere for multi-DEX aggregation
+- **Lightweight** - Minimal dependencies for efficient aggregation
+- **Type Safe** - Full TypeScript support for aggregation operations
 
 ## 📄 **License**
 
