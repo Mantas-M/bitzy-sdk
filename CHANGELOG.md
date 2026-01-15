@@ -1,3 +1,12 @@
+# [0.1.0](https://github.com/bitzy-app/bitzy-sdk/compare/v0.0.8...v0.1.0) (2026-01-15)
+
+
+### Bug Fixes
+
+* build setup ([53a9fed](https://github.com/bitzy-app/bitzy-sdk/commit/53a9fed4774a36c8d5f14d2699873c48d2daae68))
+
+
+
 ## [0.0.8](https://github.com/bitzy-app/bitzy-sdk/compare/v0.0.7...v0.0.8) (2026-01-15)
 
 
