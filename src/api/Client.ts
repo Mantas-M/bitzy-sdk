@@ -152,10 +152,7 @@ export class APIClient {
       .reduce((result: any, key: string) => {
         let value: string;
         if (Array.isArray(queries[key])) {
-          // Format as JSON array string: ["1","2"]
-          const arrayStr = '["' + queries[key].map((v: any) => v).join('","') + '"]';
-          // Encode only quotes (%22), keep brackets unencoded
-          value = arrayStr.replace(/"/g, "%22");
+          value = '["' + queries[key].map((v: any) => String(v)).join('","') + '"]';
         } else {
           value = String(queries[key]);
         }
